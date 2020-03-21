@@ -23,7 +23,7 @@ export default class MyProject extends Component {
   }
 
 
-GenerateRandomNumber=()=>
+  GerarNumeroAleatorio=()=>
 {
  
   var RandomNumber = Math.floor(Math.random() * 60) + 1 ;
@@ -56,7 +56,7 @@ this.setState({
         <Text style={{marginBottom: 10, fontSize: 20}}>{this.state.NumberHolder4}</Text>
         <Text style={{marginBottom: 10, fontSize: 20}}>{this.state.NumberHolder5}</Text>
         <Text style={{marginBottom: 10, fontSize: 20}}>{this.state.NumberHolder6}</Text>
-       <Button title="Pressione o botão!" onPress={this.GenerateRandomNumber} />
+       <Button title="Pressione o botão!" onPress={this.GerarNumeroAleatorio} />
       </View>
  
     );
