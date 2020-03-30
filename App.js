@@ -1,75 +1,120 @@
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Button, TextInput, FlatList, MaskedInput} from 'react-native';
 
-import React, { Component } from 'react';
- 
-import { StyleSheet, View, Button, Text } from 'react-native';
- 
-export default class MyProject extends Component {
- 
-  constructor(){
- 
-    super();
- 
-    this.state={
- 
-      // This is our Default number value
-      NumberHolder : 0,
-      NumberHolder2 : 0,
-      NumberHolder3 : 0,
-      NumberHolder4 : 0,
-      NumberHolder5 : 0,
-      NumberHolder6 : 0
- 
-    }
+export default function App() {
+  const[nome, setNome] = useState('')
+
+  const[telefone, setTelefone] = useState('')
+
+  const capturarNome = (nome) => {
+    setNome(nome)
+  }
+  const capturaTelefone = (telefone) => {
+    setTelefone(telefone)
   }
 
+  const [lembretes, setLembretes] = useState([]);
 
-  GerarNumeroAleatorio=()=>
-{
- 
-  var RandomNumber = Math.floor(Math.random() * 60) + 1 ;
-  var RandomNumber2 = Math.floor(Math.random() * 60) + 1 ;
-  var RandomNumber3 = Math.floor(Math.random() * 60) + 1 ;
-  var RandomNumber4 = Math.floor(Math.random() * 60) + 1 ;
-  var RandomNumber5 = Math.floor(Math.random() * 60) + 1 ;
-  var RandomNumber6 = Math.floor(Math.random() * 60) + 1 ;
- 
-this.setState({
- 
-  NumberHolder : RandomNumber,
-  NumberHolder2 : RandomNumber2,
-  NumberHolder3 : RandomNumber3,
-  NumberHolder4 : RandomNumber4,
-  NumberHolder5 : RandomNumber5,
-  NumberHolder6 : RandomNumber6
- 
-})
-}
-  
-  render() {
-    return (
-   
-      <View style={styles.MainContainer} >
- 
-        <Text style={{marginBottom: 10, fontSize: 20}}>{this.state.NumberHolder}</Text>
-        <Text style={{marginBottom: 10, fontSize: 20}}>{this.state.NumberHolder2}</Text>
-        <Text style={{marginBottom: 10, fontSize: 20}}>{this.state.NumberHolder3}</Text>
-        <Text style={{marginBottom: 10, fontSize: 20}}>{this.state.NumberHolder4}</Text>
-        <Text style={{marginBottom: 10, fontSize: 20}}>{this.state.NumberHolder5}</Text>
-        <Text style={{marginBottom: 10, fontSize: 20}}>{this.state.NumberHolder6}</Text>
-       <Button title="Pressione o botão!" onPress={this.GerarNumeroAleatorio} />
+  let[contadorLembretes, setContadorLembretes] = useState(10);
+
+  const adicionarLembrete = () => {
+    
+    setLembretes (lembretes => {
+      console.log(lembretes);
+      if(contadorLembretes % 2 == 1){
+        setContadorLembretes(contadorLembretes+1); 
+      }else{
+        setContadorLembretes(contadorLembretes+2); 
+      }
+      
+      return [{
+        
+        id: contadorLembretes,
+        valueNome: nome,
+        valueTelefone: telefone
+      }, ...lembretes];
+    });
+    
+  }
+
+  return (
+    <View style={styles.telaPrincipalView}>
+      <View style={styles.lembreteView}>
+        <TextInput 
+          placeholder="Nome..."
+          style={styles.nomeTextInput}
+          onChangeText={capturarNome}
+          value={nome}
+        />
+        <TextInput 
+          placeholder="Telefone..."
+          style={styles.telefoneTextInput}
+          onChangeText={capturaTelefone}
+          value={telefone}
+        />
+        <Button 
+          title="+"
+          onPress={adicionarLembrete}
+        />
       </View>
- 
-    );
-  }
+
+      <FlatList
+        data={lembretes}
+        renderItem={
+          ({item}) => (            
+              <View style={styles.itemNaLista}>
+                <Text>Id:{item.id}  Nome:{item.valueNome}  Telefone:{item.valueTelefone}</Text>
+              </View>
+          )
+        }
+      />
+      {/*<ScrollView>
+        {  
+          for(Lembrete lembrete : lembretes)
+          Após o => é onde vai exibir na tela
+          lembretes.map((lembrete) => 
+            <View 
+              key={lembrete}
+              style={styles.itemNaLista}><Text>{lembrete}</Text>
+            </View>
+          )
+        }
+      </ScrollView>*/}
+    </View>
+  );
 }
- 
-const styles = StyleSheet.create(
-{
-  MainContainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
+
+
+const styles = StyleSheet.create({
+  telaPrincipalView: {
+    padding: 50
+  },
+  lembreteView: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    marginBottom: 6
+  },
+  nomeTextInput: {
+    width: '80%',
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    padding: 2,
+    marginBottom: 4
+  },
+  telefoneTextInput: {
+    width: '80%',
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
+    padding: 2,
+    marginBottom: 4
+  },
+  itemNaLista: {
+    padding: 12,
+    backgroundColor: "#CCC",
+    borderColor: "#000",
+    borderWidth: 1,
+    marginBottom: 8,
+    borderRadius: 8
   }
- 
 });
