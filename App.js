@@ -1,120 +1,60 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, FlatList, MaskedInput} from 'react-native';
+import React, {useState} from 'react';
+import { StyleSheet, Text, View, TextInput, Button, FlatList } from 'react-native';
+import LembreteItem from './components/LembreteItem'
+import LembreteInput from './components/LembreteInput';
 
 export default function App() {
-  const[nome, setNome] = useState('')
+  
+  const [usuarios, setUsuarios] = useState([]);
 
-  const[telefone, setTelefone] = useState('')
+  let [contadorUsuarios, setContadorUsuarios] = useState(10);
 
-  const capturarNome = (nome) => {
-    setNome(nome)
-  }
-  const capturaTelefone = (telefone) => {
-    setTelefone(telefone)
-  }
-
-  const [lembretes, setLembretes] = useState([]);
-
-  let[contadorLembretes, setContadorLembretes] = useState(10);
-
-  const adicionarLembrete = () => {
-    
-    setLembretes (lembretes => {
-      console.log(lembretes);
-      if(contadorLembretes % 2 == 1){
-        setContadorLembretes(contadorLembretes+1); 
+  const adicionarNome = (nome,telefone) => {
+    //spread
+    setUsuarios (usuarios => {
+      console.log (usuarios);
+      setContadorUsuarios(contadorUsuarios + 1);
+      if(contadorUsuarios % 2 == 1){
+        setContadorUsuarios(contadorUsuarios+1); 
       }else{
-        setContadorLembretes(contadorLembretes+2); 
+        setContadorUsuarios(contadorUsuarios+2); 
       }
-      
-      return [{
-        
-        id: contadorLembretes,
-        valueNome: nome,
-        valueTelefone: telefone
-      }, ...lembretes];
+      return [{key: contadorUsuarios, vNome: nome, vTelefone: telefone}, ...usuarios];
     });
     
+    //console.log (lembrete);
   }
+
+  const removerLembrete = (keyASerRemovida) => {
+    setUsuarios(usuarios =>{
+      return usuarios.filter(nome => nome.key !== keyASerRemovida);
+    })
+  }
+  
 
   return (
     <View style={styles.telaPrincipalView}>
-      <View style={styles.lembreteView}>
-        <TextInput 
-          placeholder="Nome..."
-          style={styles.nomeTextInput}
-          onChangeText={capturarNome}
-          value={nome}
-        />
-        <TextInput 
-          placeholder="Telefone..."
-          style={styles.telefoneTextInput}
-          onChangeText={capturaTelefone}
-          value={telefone}
-        />
-        <Button 
-          title="+"
-          onPress={adicionarLembrete}
-        />
-      </View>
-
+      <LembreteInput onAdicionarUsuario={adicionarNome}/>
       <FlatList
-        data={lembretes}
+        data={usuarios}
         renderItem={
-          ({item}) => (            
-              <View style={styles.itemNaLista}>
-                <Text>Id:{item.id}  Nome:{item.valueNome}  Telefone:{item.valueTelefone}</Text>
-              </View>
-          )
+          ({item}) => (
+            <LembreteItem 
+              nome={item.vNome}
+              telefone={item.vTelefone}
+              chave={item.key}
+              onDelete={removerLembrete}
+            />
+          )          
         }
       />
-      {/*<ScrollView>
-        {  
-          for(Lembrete lembrete : lembretes)
-          Após o => é onde vai exibir na tela
-          lembretes.map((lembrete) => 
-            <View 
-              key={lembrete}
-              style={styles.itemNaLista}><Text>{lembrete}</Text>
-            </View>
-          )
-        }
-      </ScrollView>*/}
     </View>
+   
   );
 }
-
 
 const styles = StyleSheet.create({
   telaPrincipalView: {
     padding: 50
-  },
-  lembreteView: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 6
-  },
-  nomeTextInput: {
-    width: '80%',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    padding: 2,
-    marginBottom: 4
-  },
-  telefoneTextInput: {
-    width: '80%',
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-    padding: 2,
-    marginBottom: 4
-  },
-  itemNaLista: {
-    padding: 12,
-    backgroundColor: "#CCC",
-    borderColor: "#000",
-    borderWidth: 1,
-    marginBottom: 8,
-    borderRadius: 8
   }
 });
