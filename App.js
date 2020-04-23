@@ -1,55 +1,46 @@
-import React, {useState} from 'react';
-import { StyleSheet, Text, View, FlatList } from 'react-native';
-import UsuarioItem from './components/UsuarioItem'
-import UsuarioInput from './components/UsuarioInput';
+import React,{useState} from 'react';
+import { View } from 'react-native';
 import Cabecalho from './components/Cabecalho';
-import TelaPrincal from './medidas/TelaPrincipal'
+import TelaCadastro from './telas/TelaCadastro';
+import TelaUsuario from './telas/TelaUsuario';
 
 export default function App() {
   
-  const [usuarios, setUsuarios] = useState([]);
+  const[idUsuario, setIdUsuario] = useState();
+  const[nomeUsuario, setNomeUsuario] = useState();
+  const[telefoneUsuario, setTelefoneUsuario] = useState();
 
-  let [contadorUsuarios, setContadorUsuarios] = useState(10);
-
-  const adicionarNome = (nome,telefone) => {
-    setUsuarios (usuarios => {
-      console.log (usuarios);
-      setContadorUsuarios(contadorUsuarios + 1);
-      return [{key: contadorUsuarios, vNome: nome, vTelefone: telefone}, ...usuarios];
-    });
+  const selecionaUsuarioId = (idUsuario) => {
+    setIdUsuario(idUsuario);
   }
 
-  const removerLembrete = (keyASerRemovida) => {
-    setUsuarios(usuarios =>{
-      return usuarios.filter(nome => nome.key !== keyASerRemovida);
-    })
+  const selecionaUsuarioNome = (nomeUsuario) => {
+    setNomeUsuario(nomeUsuario);
   }
+
+  const selecionaUsuarioTelefone = (telefoneUsuario) => {
+    setTelefoneUsuario(telefoneUsuario);
+  }
+
+  let conteudo = <TelaCadastro 
+                  onSelecionaUsuarioId={selecionaUsuarioId}
+                  onSelecionaUsuarioNome={selecionaUsuarioNome}  
+                  onSelecionaUsuarioTelefone={selecionaUsuarioTelefone}
+                />
+  //let conteudo = <TelaUsuario/>
   
+
+
+  if(idUsuario){
+    conteudo = <TelaUsuario id={idUsuario} nome={nomeUsuario} telefone={telefoneUsuario}/>
+  }
 
   return (
     
     <View>
       <Cabecalho titulo={'Cadastro de usuario'}/>
-      <View padding={TelaPrincal.TelaPrincipalPadding}>
-        <UsuarioInput onAdicionarUsuario={adicionarNome}/>
-        <FlatList
-          data={usuarios}
-          renderItem={
-            ({item}) => (
-              <UsuarioItem
-                nome={item.vNome}
-                telefone={item.vTelefone}
-                chave={item.key}
-                onDelete={removerLembrete}
-              />
-            )          
-          }
-        />
-      </View>
+      {conteudo}
     </View>
    
   );
 }
-
-const styles = StyleSheet.create({
-});

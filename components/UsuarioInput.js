@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import {View, TextInput, Button, StyleSheet} from 'react-native';
-import MedidasUsuarioInput from '../medidas/MediasUsuarioInput'
-import SombrasUsuarioInput from '../sombras/SombrasUsuarioInput'
 
 const UsuarioInput = (props) => {
     const [nome, setNome] = useState('');
@@ -17,26 +15,16 @@ const UsuarioInput = (props) => {
     }
 
     return (
-    <View
-        flexDirection={MedidasUsuarioInput.UsuarioInputFlexDirectionView}
-        justifyContent={MedidasUsuarioInput.UsuarioInputJustifyContentView}
-        alignItems={MedidasUsuarioInput.UsuarioInputAlignItemsView}
-        marginBottom={MedidasUsuarioInput.UsuarioInputMarginBottomView}
-    >
+    <View style={styles.tela}>
     <TextInput 
       placeholder="Nome..."
-      padding={MedidasUsuarioInput.USuarioInputPadding}
-      marginBottom={MedidasUsuarioInput.UsuairoInputMarginBttm}
-      borderBottomColor={SombrasUsuarioInput.UsuarioInputColor}
+      style={styles.form}
       onChangeText={capturarNome}
       value={nome}
     />
     <TextInput 
       placeholder="Telefone..."
-      
-      padding={MedidasUsuarioInput.USuarioInputPadding}
-      marginBottom={MedidasUsuarioInput.UsuairoInputMarginBttm}
-      borderBottomColor={SombrasUsuarioInput.UsuarioInputColor}
+      style={styles.form}
       onChangeText={capturarTelefone}
       value={telefone}
     />
@@ -47,6 +35,20 @@ const UsuarioInput = (props) => {
     </View>
     );
 }
+
+const styles = StyleSheet.create({
+    tela:{
+      flexDirection: 'row',
+      marginBottom: 6,
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    },
+    form: { 
+      padding: 2,
+      marginBottom: 2,
+      borderBottomColor: 'black'
+    }
+})
 
 
 export default UsuarioInput;

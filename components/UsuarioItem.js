@@ -1,29 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import Cartao from './Cartao';
-import Cores from '../cores/cores'
-import SombrasUsuario from '../sombras/SombrasUsuarioItem'
-import MedidasUsuario from '../medidas/MedidasUsuarioItem'
+import TelaUsuario from '../telas/TelaUsuario'
 
 const UsuarioItem = (props) => {
     
-    const handleClick = () => {
-        Alert.alert('Clique longo para excluir o usuario -> ' + props.nome)
+    //const[retornaUsuario, setRetornarUsuario] = useState(false);
+
+    const confirmaDelete = () => {
+
+        let retorno = false;
+
+        Alert.alert(
+            'Excluir!',
+            'Tem deseja que quer excluir o usuario ' + props.nome,
+            [
+                {
+                    text: 'OK',
+                    style: 'default',
+                    onPress: deletaUsuario
+                },
+                {
+                    text: 'CANCEL',
+                    style: 'default',
+                    
+                }
+            ]
+        );
+    }
+
+    const deletaUsuario = () => {
+        console.log("props.chave " + props.chave)
+        props.onDelete.bind(this, props.chave)()
     }
 
     return (
         <Cartao>
             <TouchableOpacity 
-            onLongPress={props.onDelete.bind(this, props.chave)}
-            onPress={handleClick}
+            onLongPress={//() => {
+                   // if(confirmaDelete)
+                  //  {
+                  //  } 
+                    //props.onDelete.bind(this, props.chave)()
+                    confirmaDelete
+                //}
+            }
+            onPress={() => {
+                    props.onSelecionaUsuarioId(props.chave);
+                    props.onSelecionaUsuarioNome(props.nome);
+                    props.onSelecionaUsuarioTelefone(props.telefone);
+                } 
+            }
             >
-                <View 
-                    style={styles.itemNaLista}  
-                    backgroundColor={Cores.accent}
-                    borderColor={SombrasUsuario.UsuarioBordarCor}
-                    marginBottom={MedidasUsuario.UsuarioMarginBottom}
-                >
-                    <Text>Id:{props.chave} Nome: {props.nome} Telefone:{props.telefone}</Text>
+                <View style={styles.itemNaLista}  >
+                    <Text>Nome: {props.nome}</Text>
                 </View>
             </TouchableOpacity>        
         </Cartao>
@@ -32,7 +62,9 @@ const UsuarioItem = (props) => {
 
 const styles = StyleSheet.create({
     itemNaLista: {
-        borderRadius: 8
+        borderRadius: 8,
+        marginBottom: 8,
+        color: 'green'
     }
 });
 
