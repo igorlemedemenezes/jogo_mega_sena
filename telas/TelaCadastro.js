@@ -5,7 +5,7 @@ import UsuarioItem from '../components/UsuarioItem';
 
 const TelaCadastro = (props) => {
     const [usuarios, setUsuarios] = useState([]);
-    let [contadorUsuarios, setContadorUsuarios] = useState(10);
+    let [contadorUsuarios, setContadorUsuarios] = useState(1);
 
     const removerLembrete = (keyASerRemovida) => {
         setUsuarios(usuarios =>{
