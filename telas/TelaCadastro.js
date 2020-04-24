@@ -22,6 +22,8 @@ const TelaCadastro = (props) => {
      Keyboard.dismiss();
     }
 
+    
+
     return (
         <View style={estilos.tela}>
             <UsuarioInput onAdicionarUsuario={adicionarNome}/>
@@ -37,6 +39,7 @@ const TelaCadastro = (props) => {
                     onSelecionaUsuarioId={props.onSelecionaUsuarioId}
                     onSelecionaUsuarioNome={props.onSelecionaUsuarioNome}
                     onSelecionaUsuarioTelefone={props.onSelecionaUsuarioTelefone}
+                    onSelecionaEditarTelaUsuario={props.onEditarTelaUsuario}
                 />
                 )          
             }

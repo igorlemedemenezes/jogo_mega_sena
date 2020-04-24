@@ -9,6 +9,8 @@ export default function App() {
   const[idUsuario, setIdUsuario] = useState();
   const[nomeUsuario, setNomeUsuario] = useState();
   const[telefoneUsuario, setTelefoneUsuario] = useState();
+  const[telaInicial, setTelaInicial] = useState(true)
+  const[telaUsuario, setTelaUsuario] = useState(false)
 
   const selecionaUsuarioId = (idUsuario) => {
     setIdUsuario(idUsuario);
@@ -22,18 +24,52 @@ export default function App() {
     setTelefoneUsuario(telefoneUsuario);
   }
 
-  let conteudo = <TelaCadastro 
-                  onSelecionaUsuarioId={selecionaUsuarioId}
-                  onSelecionaUsuarioNome={selecionaUsuarioNome}  
-                  onSelecionaUsuarioTelefone={selecionaUsuarioTelefone}
-                />
-  //let conteudo = <TelaUsuario/>
+  const editarUsuario = (id, nome, telefone) => {
+    setIdUsuario(id);
+    setNomeUsuario(nome);
+    setTelefoneUsuario(telefone);
+  }
+
+  const editarTelaUsuario = () => {
+    setTelaUsuario(true);
+    setTelaInicial(false);
+  }
+
+  const editarTelaInicio = () => {
+    setTelaInicial(true);
+    setTelaUsuario(false);
+  }
+
+  let conteudo;
   
 
-
-  if(idUsuario){
-    conteudo = <TelaUsuario id={idUsuario} nome={nomeUsuario} telefone={telefoneUsuario}/>
+  if(telaInicial === true){
+    conteudo = <TelaCadastro 
+              onSelecionaUsuarioId={selecionaUsuarioId}
+              onSelecionaUsuarioNome={selecionaUsuarioNome}  
+              onSelecionaUsuarioTelefone={selecionaUsuarioTelefone}
+              onEditarTelaUsuario={editarTelaUsuario}
+            />
   }
+  
+  if(telaUsuario === true){
+    conteudo = <TelaUsuario 
+                  id={idUsuario} 
+                  nome={nomeUsuario} 
+                  telefone={telefoneUsuario}
+                  onEditarTelaInicio={editarTelaInicio}
+                  onEditarUsuario={editarUsuario}
+                />
+  }
+
+/*    if(telaUsuario === true){
+    conteudo = <TelaUsuario 
+                  id={idUsuario} 
+                  nome={nomeUsuario} 
+                  telefone={telefoneUsuario}
+                  onEditarTelaEditarUsuario={editarTelaEditarUsuario}
+                />  
+  }*/
 
   return (
     

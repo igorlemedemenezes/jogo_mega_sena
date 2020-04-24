@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import Cartao from './Cartao';
-import TelaUsuario from '../telas/TelaUsuario'
 
 const UsuarioItem = (props) => {
     
     //const[retornaUsuario, setRetornarUsuario] = useState(false);
 
     const confirmaDelete = () => {
-
-        let retorno = false;
 
         Alert.alert(
             'Excluir!',
@@ -34,21 +31,21 @@ const UsuarioItem = (props) => {
         props.onDelete.bind(this, props.chave)()
     }
 
+    const editarTelaUsuario = () => {
+        props.onSelecionaEditarTelaUsuario();
+    }
+
     return (
         <Cartao>
             <TouchableOpacity 
-            onLongPress={//() => {
-                   // if(confirmaDelete)
-                  //  {
-                  //  } 
-                    //props.onDelete.bind(this, props.chave)()
+            onLongPress={
                     confirmaDelete
-                //}
             }
             onPress={() => {
                     props.onSelecionaUsuarioId(props.chave);
                     props.onSelecionaUsuarioNome(props.nome);
                     props.onSelecionaUsuarioTelefone(props.telefone);
+                    editarTelaUsuario();
                 } 
             }
             >
